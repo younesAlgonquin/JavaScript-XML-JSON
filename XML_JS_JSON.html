@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html>
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Lab 10 - XML, JavaScript and JSON</title>
+	<meta charset="utf-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+		
+		
+function convertXMLtoJSON() {
+
+	/*open the XML file*/
+	
+	var xmlhttp;
+	
+	//code for modern browsers
+	if (window.XMLHttpRequest){
+	
+	xmlhttp=new XMLHttpRequest();
+	}
+	
+	//load the external XML file
+	xmlhttp.open("GET", "Books.xml",false);
+	xmlhttp.send();
+	var xmlDoc=xmlhttp.responseXML;
+	
+	//Extract a node list of all <books > elements
+	var books = xmlDoc.getElementsByTagName("book");
+
+	
+	/*Create a JSON array*/
+	var jsonBooksArray = new Array();
+	
+	//populate the JSON array with XML file content
+	for(var i = 0; i < books.length; i++){
+		
+		//read each element content and store it in a JSON object
+		var jsonObj ={ //JSON object
+			 "author" : books[i].getElementsByTagName("author")[0].textContent,
+			 "title" :  books[i].getElementsByTagName("title")[0].textContent,
+			 "genre" :  books[i].getElementsByTagName("genre")[0].textContent, 
+			 "price" : books[i].getElementsByTagName("price")[0].textContent,
+			 "publish_date" : books[i].getElementsByTagName("publish_date")[0].textContent,
+			 "description" : books[i].getElementsByTagName("description")[0].textContent,
+
+			};
+			//Add the JSON object to the array
+			jsonBooksArray[i] = jsonObj;
+			
+	}//end for
+	
+	/*print the array content*/
+	document.writeln("<h2>Catalog</h2>");
+  	for ( var i = 0; i < jsonBooksArray.length; i++ ) {
+		document.writeln("<h3>BOOK (" + (i+1) + ")</h3>");
+ 		document.writeln("Author: " + jsonBooksArray[i].author + "<br>");
+ 		document.writeln("Title: " + jsonBooksArray[i].title + "<br>");
+ 		document.writeln("Genre: " + jsonBooksArray[i].genre + "<br>");	
+		document.writeln("Price: " + jsonBooksArray[i].price + "<br>");
+ 		document.writeln("publish_date: " + jsonBooksArray[i].publish_date + "<br>");
+ 		document.writeln("description: " + jsonBooksArray[i].description + "<br><br>");
+
+	}
+	
+
+
+
+} // End function
+
+</script>
+</head>
+
+<body>
+<h3>Lab 10- Displaying Array of JSON objects </h3>
+    
+	    <table>      
+        	<tr>			    
+					<td><input onclick="convertXMLtoJSON()" name="btnConvertJSON" id="btnConvertJSON" value="JSONDisplay!" type="button"></td>
+			</tr>       
+		</table>
+</body>
+</html>
